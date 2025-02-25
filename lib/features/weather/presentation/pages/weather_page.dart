@@ -10,6 +10,7 @@ import '../cubit/weather_state.dart';
 import '../widgets/weather_gauge.dart';
 import '../widgets/hourly_forecast.dart';
 import '../widgets/precipitation_chart.dart';
+import '../widgets/city_search_bar.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
@@ -19,17 +20,24 @@ class WeatherPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: BlocBuilder<WeatherCubit, WeatherState>(
-          builder: (context, state) {
-            return state.when(
-              initial: () => _buildInitialState(context),
-              loading: () => const Center(
-                child: CircularProgressIndicator(color: Colors.yellow),
+        child: Column(
+          children: [
+            const CitySearchBar(),
+            Expanded(
+              child: BlocBuilder<WeatherCubit, WeatherState>(
+                builder: (context, state) {
+                  return state.when(
+                    initial: () => _buildInitialState(context),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(color: Colors.yellow),
+                    ),
+                    loaded: (weather) => _buildWeatherContent(context, weather),
+                    error: (message) => _buildErrorState(context, message),
+                  );
+                },
               ),
-              loaded: (weather) => _buildWeatherContent(context, weather),
-              error: (message) => _buildErrorState(context, message),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
