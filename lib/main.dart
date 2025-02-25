@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           title: 'Weather Forecast',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
