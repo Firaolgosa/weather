@@ -11,6 +11,7 @@ import '../widgets/weather_gauge.dart';
 import '../widgets/hourly_forecast.dart';
 import '../widgets/precipitation_chart.dart';
 import '../widgets/city_search_bar.dart';
+import '../widgets/weather_cards_grid.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
@@ -78,71 +79,79 @@ class WeatherPage extends StatelessWidget {
   }
 
   Widget _buildWeatherContent(BuildContext context, WeatherModel weather) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.black,
-            Colors.blueGrey.shade900,
-          ],
-        ),
-      ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Text(
-                weather.cityName,
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.more_vert, color: Colors.white),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            WeatherGauge(
-              temperature: weather.temp,
-              minTemp: weather.tempMin,
-              maxTemp: weather.tempMax,
-              windSpeed: 20, // Replace with actual wind speed from your model
-            ),
-            SizedBox(height: 20.h),
-            Text(
-              'Rain Storm\nClouds',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 24.sp,
-                color: Colors.white,
-                height: 1.2,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black,
+                  Colors.blueGrey.shade900,
+                ],
               ),
             ),
-            SizedBox(height: 30.h),
-            HourlyForecast(
-              hourlyData: [
-                // Add sample data - replace with actual data from your API
-                HourlyWeather(
-                  time: DateTime.now().add(Duration(hours: 1)),
-                  temperature: 19,
-                  condition: 'cloudy',
-                ),
-                // Add more hourly forecasts...
-              ],
-              selectedHourIndex: 3,
-              onHourSelected: (index) {
-                // Handle hour selection
-              },
+            child: SafeArea(
+              child: Column(
+                children: [
+                  AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    title: Text(
+                      weather.cityName,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                      ),
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.more_vert, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  WeatherGauge(
+                    temperature: weather.temp,
+                    minTemp: weather.tempMin,
+                    maxTemp: weather.tempMax,
+                    windSpeed: 20, // Replace with actual wind speed from your model
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(
+                    'Rain Storm\nClouds',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 24.sp,
+                      color: Colors.white,
+                      height: 1.2,
+                    ),
+                  ),
+                  SizedBox(height: 30.h),
+                  HourlyForecast(
+                    hourlyData: [
+                      // Add sample data - replace with actual data from your API
+                      HourlyWeather(
+                        time: DateTime.now().add(Duration(hours: 1)),
+                        temperature: 19,
+                        condition: 'cloudy',
+                      ),
+                      // Add more hourly forecasts...
+                    ],
+                    selectedHourIndex: 3,
+                    onHourSelected: (index) {
+                      // Handle hour selection
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(height: 20.h),
+          const WeatherCardsGrid(),
+        ],
       ),
     );
   }
